@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+
+echo "starting"
 if [ ! -f ".env" ]; then
     echo "Starting setup..."
     echo "Generating IPFS swarm key..."

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "setup": "./setup.sh"
+    "setup": "sh ./setup.sh"
   },
   "dependencies": {
     "@next/font": "13.0.7",
@@ -21,7 +21,8 @@
     "next": "13.0.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

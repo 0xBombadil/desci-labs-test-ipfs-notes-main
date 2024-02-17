@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: 100px;
+  overflow: hidden;
+  width: 30%;
+}
+
+.input {
+  background-color: var(--bg-color);
+  border: none;
+  padding: 0.75rem;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.button {
+  white-space: nowrap;
+  /* background-color: var(--primary-color); */
+  border: none;
+}
