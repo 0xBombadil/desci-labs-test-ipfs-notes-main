@@ -17,6 +17,28 @@
 
 .button {
   white-space: nowrap;
+  font-size: 1.5rem;
+  background: none;
   /* background-color: var(--primary-color); */
   border: none;
+  border-left: 1px solid var(--border-color);
+  color: gray;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+}
+
+.button:not(:disabled) {
+  color: lime;
+}
+
+.button:not(:disabled):hover {
+  cursor: pointer;
+  background-color: var(--border-color);
+}
+
+.button:not(:disabled) svg {
+  filter: drop-shadow(0 0 5px lime);
 }

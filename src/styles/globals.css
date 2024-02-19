@@ -4,7 +4,7 @@
   --primary-color: #95e069;
   --bg-color: hsl(252, 8%, 12%);
   --input-bg-color: hsl(252, 8%, 10%);
-  --border-color: hsl(252, 8%, 15%);
+  --border-color: #2d2d2d;
   --text-color: #dad2d2;
   --heading-color: #ffffff;
 }
@@ -31,7 +31,6 @@ body {
 main {
   flex: 1;
   display: flex;
-  gap: 1rem;
 }
 
 h1,

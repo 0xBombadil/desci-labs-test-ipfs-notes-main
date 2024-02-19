@@ -1,15 +1,13 @@
 import React from "react"
 import { handleSave, handleSign, setText, setTitle, useStore, verifySignature } from "../store/store"
-import styles from "./Viewer.module.css"
+import styles from "./Editor.module.css"
 import Image from "next/image"
 
-export default function Viewer() {
-  const title = useStore(s => s.viewedNote.title)
-  const text = useStore(s => s.viewedNote.text)
-  const author = useStore(s => s.viewedNote.author)
-  const signature = useStore(s => s.viewedNote.signature)
-  const signatureValid = useStore(s => s.viewedNote.signatureValid)
-
+export default function Editor() {
+  const title = useStore(s => s.editedNote.title)
+  const text = useStore(s => s.editedNote.text)
+  const author = useStore(s => s.editedNote.author)
+  const signatureValid = useStore(s => s.editedNote.signatureValid)
   const loading = useStore(s => s.loading)
 
   return (
@@ -22,8 +20,23 @@ export default function Viewer() {
           value={title}
           placeholder="Write a title..."
           type="text"
-          disabled
         />
+        <button
+          onClick={handleSign}
+          className={`${styles.button} ${loading ? styles.loading : ""}`}
+          disabled={title.length === 0 || loading}
+          title="Sign with Wallet"
+        >
+          {signSVG}
+        </button>
+        <button
+          onClick={handleSave}
+          className={`${styles.button} ${loading ? styles.loading : ""}`}
+          disabled={title.length === 0 || loading}
+          title="Save to IPFS"
+        >
+          {saveSVG}
+        </button>
       </div>
       {author && (
         <div className={styles.author}>
@@ -42,11 +55,38 @@ export default function Viewer() {
         value={text}
         placeholder="Take a note..."
         rows={10}
-        disabled
       />
+      {/* <div>
+        Signature: {signature}
+        <button
+          onClick={async () => {
+            const isValid = await verifySignature()
+            console.log(isValid)
+          }}
+        >
+          Verify
+        </button>
+      </div> */}
     </div>
   )
 }
+
+const saveSVG = (
+  <svg height="1em" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z"
+    />
+  </svg>
+)
+
+const signSVG = (
+  <svg fill="currentColor" height="1em" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M22,27a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4h9.76L15,4V8a3,3,0,0,0,3,3l2-2H18a1,1,0,0,1-1-1V5.41L20.29,8.7l.89-.89.52-.52L17.59,3.17A4,4,0,0,0,14.76,2H5A3,3,0,0,0,2,5V27a3,3,0,0,0,3,3H21a3,3,0,0,0,3-3V19.42l-2,2Z" />
+    <path d="M29,7.24a2.86,2.86,0,0,0-4.39,0l-2,2L14.11,17.7a6.09,6.09,0,0,0-.93,1.23L10.69,24H7a1,1,0,0,0,0,2h4a1,1,0,0,0,.67-.27.58.58,0,0,0,.18,0L17.36,23a5.87,5.87,0,0,0,1.14-.9l.56-.55h0L27,13.62l2-2a3.07,3.07,0,0,0,1-2.19A3.11,3.11,0,0,0,29,7.24ZM16.67,21l-.27.19-2.8,1.38,1.33-2.73a3.88,3.88,0,0,1,.47-.6l.61.61.92.93Zm1.69-1.63-.78-.77-.78-.79,6.5-6.5,1.56,1.56Zm9.19-9.19L26.27,11.5,24.71,9.93,26,8.66a1.29,1.29,0,0,1,.78-.45,1.31,1.31,0,0,1,.78.45,1.34,1.34,0,0,1,.45.78A1.37,1.37,0,0,1,27.55,10.22Z" />
+  </svg>
+)
 
 const verifiedSVG = (
   <svg height="1em" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
