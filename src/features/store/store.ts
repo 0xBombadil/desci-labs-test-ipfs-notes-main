@@ -58,11 +58,13 @@ export async function handleSearch() {
   try {
     if (!useStore.getState().cidQueryValid) throw Error("cidQuery is invalid")
     const { data } = await axios.get(`/api/ipfs?cid=${useStore.getState().cidQuery}`)
-    const unverifiedNote = { title: data.content.title, text: data.content.text, author: data.author, signature: data.signature }
+    console.log({ data })
+    const unverifiedNote = { title: data.title, text: data.text, author: data.author, signature: data.signature }
 
     const address = useWalletStore.getState().account?.address
     if (address === unverifiedNote.author) {
       useStore.setState({
+        mode: "edit",
         editedNote: {
           ...unverifiedNote,
           signatureValid: await verifySignature(unverifiedNote),
@@ -70,6 +72,7 @@ export async function handleSearch() {
       })
     } else {
       useStore.setState({
+        mode: "view",
         viewedNote: {
           ...unverifiedNote,
           signatureValid: await verifySignature(unverifiedNote),
@@ -88,7 +91,7 @@ export async function handleLoad(cid: string) {
   try {
     const address = useWalletStore.getState().account?.address
     const { data } = await axios.get(`/api/ipfs?cid=${cid}`)
-    const unverifiedNote = { title: data.content.title, text: data.content.text, author: data.content.author, signature: data.content.signature }
+    const unverifiedNote = { title: data.title, text: data.text, author: data.author, signature: data.signature }
     console.log(data)
     if (address === unverifiedNote.author) {
       useStore.setState({
@@ -149,10 +152,10 @@ export async function handleSave() {
     useStore.setState(s => ({ savedNotesCids: [...s.savedNotesCids, [data.cid, note.title]] }))
     useStore.setState({
       editedNote: {
-        title: data.content.title,
-        text: data.content.text,
+        title: data.title,
+        text: data.text,
         author: address || null,
-        signature: data.content.text.signature,
+        signature: data.text.signature,
         signatureValid: true,
       },
     })
